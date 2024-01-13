@@ -3,62 +3,61 @@ package de.hhn.labapp.persistence.crm
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.material3.DrawerState
+import androidx.compose.material3.DrawerValue
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ModalNavigationDrawer
+import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.TextUnit
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.rememberNavController
+import de.hhn.labapp.persistence.crm.components.NavigationDrawerContent
+import de.hhn.labapp.persistence.crm.model.DatabaseProvider
 import de.hhn.labapp.persistence.crm.ui.theme.Exercise2Theme
+import de.hhn.labapp.persistence.crm.viewmodel.Screen
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        DatabaseProvider.init(applicationContext)
+
         setContent {
             Exercise2Theme {
-                Column(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(16.dp),
-                ) {
-                    Heading(
-                        "Persistence in Android",
-                        32.sp,
-                        Color(0xFF003462),
-                    )
-                    Heading("Exercise 2")
-                    Text(
-                        text = "Thanks for cloning the repository.\nThe base code for this exercise will be provided on a separate branch during the lecture"
-                    )
-                }
+                // A surface container using the 'background' color from the theme
+                ScreenNavigation()
             }
         }
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Heading(
-    text: String,
-    fontSize: TextUnit = 24.sp,
-    color: Color = MaterialTheme.colorScheme.onSurface,
-) {
-    Text(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 16.dp),
-        textAlign = TextAlign.Center,
-        fontSize = fontSize,
-        fontWeight = FontWeight.Bold,
-        color = color,
-        text = text,
+fun ScreenNavigation() {
+    val navController = rememberNavController()
+    val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
+
+    ModalNavigationDrawer(
+        drawerContent = { NavigationDrawerContent(navController, drawerState) },
+        content = { Screens(navController, drawerState) },
+        drawerState = drawerState,
     )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun Screens(
+    navController: NavHostController,
+    navDrawerState: DrawerState,
+) {
+    NavHost(
+        navController = navController,
+        startDestination = Screen.CustomersOverview.name,
+        enterTransition = { slideInHorizontally { fullWidth -> fullWidth } },
+        popEnterTransition = { slideInHorizontally { fullWidth -> -fullWidth } },
+    ) {
+        AppRouter(navController, navDrawerState).build(this)
+    }
 }

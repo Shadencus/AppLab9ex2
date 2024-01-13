@@ -2,34 +2,42 @@
 
 # Exercise 2
 
-Thanks for cloning this repository.
+Welcome to the second exercise of the _Persistence in Android_ lecture. In this exercise you will persist structured data in an _SQLite_ database using _Room_.
 
-We decided to provide the repositories for the exercises upfront so you can clone them before the lecture and have them ready to go. Also this way we hope to reduce the network traffic during the lecture.
+## Prerequisites
 
-This branch will remain empty. The base code for this exercise will be provided during the lecture.
+You should have already set up this project in the `setup` branch.
 
-After checking out the branch during the lecture you can revisit this ReadMe for the assignment.
+If you have already set up the project, please pull the `assignment` branch to get the base code for this exercise.
 
-## What's to do for now?
+If you have not, please pull the `assignment` branch directly. For troubleshooting please refer to the ReadMe in the `setup` branch.
 
-1. Clone this repository to your local machine
-2. Sync the project with Gradle
-3. Resolve any issues that might occur with your project setup, see the [Troubleshooting](#troubleshooting) section below
-4. Run the app on your device or emulator: You should see a simple info screen.
-5. Stay tuned for our upcoming lecture!
+## Provided Code
 
-## Troubleshooting
+The provided code contains an example Customer-Relationship-Management (CRM) app. The app consists of two areas that can be accessed via a navigation drawer: _Customers_ and _Invoices_. Both of these areas show a list of customers or invoices respectively. The list items can be clicked to edit the customer/invoice.
 
-### Android Studio version
+However, persistence is only implemented for adding new customers and listing them ((C)reate and (R)ead in CRUD).
 
-Make sure to update your Android Studio to the latest version. Especially if you get an error regarding the Android Gradle Plugin (AGP) version.
+## Assignment
 
-### Module Errors
+- Implement persistence for editing customers (that's the (U)pdate in CRUD). You can find the relevant code in `components/customers/CustomerDetails.kt` and `viewmodel/CustomerDetailsViewModel.kt`.
+- Prepare persistence for invoices by creating an _Entity_ and a _DAO_ for invoices. Insert your code/files in places that make sense.
+- Implement persistence to adding invoices (that's the (C)reate in CRUD). You can find the relevant code in `components/invoices/InvoiceDetails.kt` and `viewmodel/InvoiceDetailsViewModel.kt`.
+- Make the list of invoices be loaded from the database. You can find the relevant code in `components/invoices/InvoicesOverview.kt` and `viewmodel/InvoicesOverviewViewModel.kt`.
 
-If Android Studio/IntelliJ does not recognize the android app module you could try to delete the `.idea` folder and reopen the project (which will recreate the `.idea` folder).
+## Grading
 
-Also make sure that you open the project in it's root directory (the directory containing the `.git` directory and this `Readme.md` file).
+| Task                               | Points |
+| ---------------------------------- | ------ |
+| Persistence for updating customers | 1.0    |
+| Invoices entity                    | 0.5    |
+| Invoices DAO                       | 0.5    |
+| Persistence for adding invoices    | 0.5    |
+| Loading invoices from database     | 0.5    |
+| _Total_                            | 3.0    |
 
-### It still doesn't work
+## Submission
 
-If you have tried the steps above and still have issues with the project setup, please contact us per email or at the start of the lecture.
+Submit your solution by zipping the project folder and uploading it under _"Aufgabe 9 Persistenz & Datenbankanbindung"_ in the Ilias mailbox as _"ex2.vorname.nachname.zip"_
+
+The assignment is due on **Thursday, 16.01.2024 at 17:10**. Later submissions will not be graded and receive 0 points.
