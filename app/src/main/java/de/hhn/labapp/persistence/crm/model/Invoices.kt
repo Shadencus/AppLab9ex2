@@ -7,6 +7,7 @@ package de.hhn.labapp.persistence.crm.model
 object Invoices {
     private val list by lazy { mutableMapOf<Int, Invoice>() }
     private var nextId = 1
+    /*
 
     fun getAll(): List<Invoice> {
         return list.values.toList()
@@ -43,4 +44,6 @@ object Invoices {
     fun delete(invoice: Invoice) {
         invoice.id?.let { list.remove(it) }
     }
+
+     */
 }
