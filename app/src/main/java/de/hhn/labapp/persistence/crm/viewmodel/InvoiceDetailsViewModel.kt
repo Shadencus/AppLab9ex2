@@ -1,8 +1,6 @@
 package de.hhn.labapp.persistence.crm.viewmodel
 
-import android.database.sqlite.SQLiteConstraintException
 import android.os.Handler
-import android.util.Log
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -13,8 +11,7 @@ import androidx.navigation.NavController
 import de.hhn.labapp.persistence.crm.factories.InvoicesFactory
 import de.hhn.labapp.persistence.crm.model.DatabaseProvider.withDatabase
 import de.hhn.labapp.persistence.crm.model.entities.Customer
-import de.hhn.labapp.persistence.crm.model.Invoice
-import de.hhn.labapp.persistence.crm.model.Invoices
+import de.hhn.labapp.persistence.crm.model.entities.Invoice
 import kotlinx.coroutines.launch
 
 class InvoiceDetailsViewModel(
@@ -66,15 +63,20 @@ class InvoiceDetailsViewModel(
         invoice.customerId = customerId
         invoice.date = date
 
+        /*
         if (invoice.id == null) {
-            Invoices.upsert(invoice)
+            //Invoices.upsert(invoice)
+            withDatabase { invoiceDao().insert(invoice) }
         }
 
+         */
+        withDatabase { invoiceDao().upsert(invoice) }
         navController.popBackStack()
     }
 
     fun onDelete() {
-        Invoices.delete(invoice)
+        //Invoices.delete(invoice)
+        withDatabase { invoiceDao().delete(invoice) }
         navController.popBackStack()
     }
 

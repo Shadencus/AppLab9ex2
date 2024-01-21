@@ -6,10 +6,10 @@ import de.hhn.labapp.persistence.crm.model.entities.Invoice
 
 @Dao
 interface InvoiceDao {
-    @Query("SELECT * FROM customer")
+    @Query("SELECT * FROM invoice")
     fun getAll(): List<Invoice>
 
-    @Query("SELECT * FROM customer WHERE id = :id")
+    @Query("SELECT * FROM invoice WHERE id = :id")
     fun get(id: Int): Invoice?
 
     @Insert

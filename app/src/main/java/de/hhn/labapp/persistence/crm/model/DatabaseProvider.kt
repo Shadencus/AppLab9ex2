@@ -37,10 +37,10 @@ object DatabaseProvider {
 
         // TODO: You can replace this to insert the data into the database instead of the
         //       in-memory list
-        if (Invoices.getAll().isEmpty()) {
+        if (database.invoiceDao().getAll().isEmpty()) {
             val customers = database.customerDao().getAll()
 
-            Invoices.insertAll(
+            database.invoiceDao().insertAll(
                 InvoicesFactory.createRandomInvoices(5, customers)
             )
         }

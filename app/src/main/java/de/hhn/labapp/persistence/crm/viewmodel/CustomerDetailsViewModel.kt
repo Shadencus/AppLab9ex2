@@ -51,8 +51,10 @@ class CustomerDetailsViewModel(
 
         if (customer.id == null) {
             withDatabase { customerDao().insert(customer) }
+        }else{
+            withDatabase { customerDao().update(customer) }
         }
-        withDatabase { customerDao().update(customer) }
+
         navController.popBackStack()
     }
 

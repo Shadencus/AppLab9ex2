@@ -3,8 +3,8 @@ package de.hhn.labapp.persistence.crm.viewmodel
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import de.hhn.labapp.persistence.crm.model.Invoice
-import de.hhn.labapp.persistence.crm.model.Invoices
+import de.hhn.labapp.persistence.crm.model.DatabaseProvider.withDatabase
+import de.hhn.labapp.persistence.crm.model.entities.Invoice
 import kotlinx.coroutines.launch
 
 class InvoicesOverviewViewModel : ViewModel() {
@@ -18,6 +18,12 @@ class InvoicesOverviewViewModel : ViewModel() {
     }
 
     private fun loadInvoices() {
-        invoices.value = Invoices.getAll()
+       withDatabase{
+           val temp = invoiceDao().getAll()
+               synchronized(invoices) {
+                   invoices.value = temp
+               }
+       }
+
     }
 }
